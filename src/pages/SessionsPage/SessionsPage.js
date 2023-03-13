@@ -1,48 +1,88 @@
+import { useParams } from "react-router-dom"
 import styled from "styled-components"
+import axios from "axios"
+import { useEffect, useState } from "react"
+
 
 export default function SessionsPage() {
+
+const {idSessions} = useParams()
+const [sessao,setSessao]=useState(null)
+
+
+useEffect(() => {
+    const requisicao = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idSessions}/showtimes`);
+
+    requisicao.then(resposta => {
+        setSessao(resposta.data);
+        console.log(resposta.data)
+    });
+
+    requisicao.catch(resposta =>{
+        console.log(resposta.request.status)
+    });
+
+}, []);
+
+  if(sessao === null){
+    return (
+         <Loading>
+            <img src="assets/loading.gif"></img>
+            </Loading> 
+         ) 
+  }
+
+
 
     return (
         <PageContainer>
             Selecione o horário
             <div>
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
 
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
+                {sessao.days.map((elemento)=>{
+                 return(
 
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
+                <SessionContainer key={elemento.id}>
+                    {elemento.weekday} - {elemento.date}
+                        <ButtonsContainer>
+                            {elemento.showtimes.map((elemento)=>{
+                             return(
+                                <button key={elemento.id}>{elemento.name}</button>
+                             );
+                            }
+                            )}
+                        </ButtonsContainer>
                 </SessionContainer>
+                 )
+                }                
+                )}
             </div>
 
             <FooterContainer>
                 <div>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
+                    <img src={sessao.posterURL} alt="poster" />
                 </div>
                 <div>
-                    <p>Tudo em todo lugar ao mesmo tempo</p>
+                    <p>{sessao.title}</p>
                 </div>
             </FooterContainer>
 
         </PageContainer>
     )
 }
+
+
+const Loading = styled.div`
+width: 100vw;
+height: 100vh;
+margin: 0 auto;
+display: flex;
+justify-content: center;
+align-items: center;
+img{
+    width: 17%; 
+}
+`
 
 const PageContainer = styled.div`
     display: flex;

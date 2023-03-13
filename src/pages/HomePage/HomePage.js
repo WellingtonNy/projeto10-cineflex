@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom";
 
 
 export default function HomePage() {
@@ -13,7 +14,6 @@ export default function HomePage() {
 
 		requisicao.then(resposta => {
 			setFilme(resposta.data);
-            console.log(resposta)
 		});
 
         requisicao.catch(resposta =>{
@@ -27,9 +27,9 @@ export default function HomePage() {
              <Loading>
                 <img src="assets/loading.gif"></img>
                 </Loading> 
-             ) 
+             )
       }
-
+      
     return (
         <PageContainer>
             Selecione o filme
@@ -38,11 +38,11 @@ export default function HomePage() {
 
                 {filme.map((elemento)=>{
                     return(
-
+                    <Link key={elemento.id} to={`/sessoes/${elemento.id}`}>
                     <MovieContainer>
                     <img src={elemento.posterURL} alt="poster" />
                 </MovieContainer>
-
+                </Link>
                 )
                 })}
 
