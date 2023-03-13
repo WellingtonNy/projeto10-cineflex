@@ -1,19 +1,19 @@
-import { Link, useNavigate, useParams } from "react-router-dom"
-import styled from "styled-components"
-import axios from "axios"
-import { useEffect, useState } from "react"
+import { Link, useNavigate, useParams } from "react-router-dom";
+import styled from "styled-components";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 
 
 export default function SeatsPage(props) {
 
-    const { idSessao } = useParams()
-    const [assento,setAssento] = useState(null)
-    const [escolha,setEscolha]=useState([])
-    const [nome,setNome]=useState()
-    const [cpf,setCpf]= useState()
+    const { idSessao } = useParams();
+    const [assento, setAssento] = useState(null);
+    const [escolha, setEscolha] = useState([]);
+    const [nome, setNome] = useState();
+    const [cpf, setCpf] = useState();
     const navigate = useNavigate();
-    
+
 
 
 
@@ -35,63 +35,65 @@ export default function SeatsPage(props) {
             <Loading>
                 <img src="/assets/loading.gif"></img>
             </Loading>
-        )
+        );
     }
 
-function escolher(cadeira){
-    if(cadeira.isAvailable !== true){
-        return alert("Esse assento não está disponível")
+    function escolher(cadeira) {
+        if (cadeira.isAvailable !== true) {
+            return alert("Esse assento não está disponível");
+        }
+
+        let escolhaCadeira = [...escolha]
+
+        if (escolhaCadeira.includes(cadeira)) {
+            escolhaCadeira = escolhaCadeira.filter((elemento) => elemento !== cadeira);
+        } else {
+            escolhaCadeira.push(cadeira);
+        }
+        setEscolha(escolhaCadeira);
     }
 
-    let escolhaCadeira = [...escolha]
+    function submeter() {
 
-    if(escolhaCadeira.includes(cadeira)){
-        escolhaCadeira = escolhaCadeira.filter((elemento)=> elemento !== cadeira);
-    }else{
-        escolhaCadeira.push(cadeira);
+        let arr = [...escolha];
+        let arr2 = [];
+        let arr3 = [];
+        arr.forEach((e) => arr3.push((e.name)));
+        arr.forEach((e) => arr2.push((e.id)));
+        const corpo = { ids: arr2, name: nome, cpf: cpf };
+        const postar = axios.post('https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many', corpo);
+
+        postar.then(() => {
+            props.setDados({
+                nome: nome,
+                cpf: cpf,
+                cadeira: arr3,
+                filme: assento.movie.title,
+                data: assento.day.date,
+                hora: assento.name
+            })
+        });
+
+        postar.catch(() => console.log('erro'));
+
+        navigate('/sucesso');
+
     }
-     setEscolha(escolhaCadeira);
-}
-
-   function submeter(){
-    
-    let arr= [...escolha]
-    let arr2=[]
-    let arr3=[]
-    arr.forEach((e)=>arr3.push((e.name)))
-    arr.forEach((e)=>arr2.push((e.id)))
-    const corpo={ids:arr2 , name:nome, cpf:cpf }
-    const postar = axios.post('https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many',corpo)
-
-     postar.then (()=>{props.setDados({nome:nome,
-        cpf:cpf,
-        cadeira:arr3,
-        filme:assento.movie.title,
-        data:assento.day.date,
-        hora:assento.name
-    })})
-     
-     postar.catch (()=> console.log('erro'))
-     
-     navigate('/sucesso')
-   
-     
-   }
 
     return (
         <PageContainer>
             Selecione o(s) assento(s)
 
             <SeatsContainer>
-                {assento.seats.map((elemento)=>{
-                    return(
+                {assento.seats.map((elemento) => {
+                    return (
 
-                        <SeatItem 
-                        data-test="seat"
-                        key={elemento.id}
-                        vago={elemento.isAvailable}
-                        selecionado={escolha.includes(elemento)}
-                        onClick={()=>escolher(elemento)}
+                        <SeatItem
+                            data-test="seat"
+                            key={elemento.id}
+                            vago={elemento.isAvailable}
+                            selecionado={escolha.includes(elemento)}
+                            onClick={() => escolher(elemento)}
                         >{elemento.name}</SeatItem>
 
                     )
@@ -101,7 +103,7 @@ function escolher(cadeira){
 
             <CaptionContainer>
                 <CaptionItem>
-                    <CaptionCircle vago={true} selecionado={true}/>
+                    <CaptionCircle vago={true} selecionado={true} />
                     Selecionado
                 </CaptionItem>
                 <CaptionItem>
@@ -117,26 +119,26 @@ function escolher(cadeira){
             <FormContainer>
                 <form onSubmit={submeter}>
 
-               <label htmlFor="nome" >Nome do Comprador:</label>
-                <input data-test="client-name"
-                id="nome" 
-                type="text" 
-                required 
-                value={nome} 
-                onChange={e=> setNome(e.target.value)} 
-                placeholder="Digite seu nome..." />
+                    <label htmlFor="nome" >Nome do Comprador:</label>
+                    <input data-test="client-name"
+                        id="nome"
+                        type="text"
+                        required
+                        value={nome}
+                        onChange={e => setNome(e.target.value)}
+                        placeholder="Digite seu nome..." />
 
-                <label htmlFor="cpf" >CPF do Comprador:</label>
-                <input data-test="client-cpf"
-                id="cpf"
-                 type="text"
-                 required
-                 value={cpf}
-                 onChange={e=> setCpf(e.target.value)}
-                 placeholder="Digite seu CPF sem Pontos ou Traços..." />
-                 
-                <button data-test="book-seat-btn" type="submit">Reservar Assento(s)</button>
-                
+                    <label htmlFor="cpf" >CPF do Comprador:</label>
+                    <input data-test="client-cpf"
+                        id="cpf"
+                        type="text"
+                        required
+                        value={cpf}
+                        onChange={e => setCpf(e.target.value)}
+                        placeholder="Digite seu CPF sem Pontos ou Traços..." />
+
+                    <button data-test="book-seat-btn" type="submit">Reservar Assento(s)</button>
+
                 </form>
             </FormContainer>
 
@@ -151,7 +153,7 @@ function escolher(cadeira){
             </FooterContainer>
 
         </PageContainer>
-    )
+    );
 }
 
 
@@ -166,7 +168,7 @@ align-items: center;
 img{
     width: 17%; 
 }
-`
+`;
 
 const PageContainer = styled.div`
     display: flex;
@@ -179,7 +181,7 @@ const PageContainer = styled.div`
     margin-top: 30px;
     padding-bottom: 120px;
     padding-top: 70px;
-`
+`;
 const SeatsContainer = styled.div`
     width: 330px;
     display: flex;
@@ -188,7 +190,7 @@ const SeatsContainer = styled.div`
     align-items: center;
     justify-content: center;
     margin-top: 20px;
-`
+`;
 const FormContainer = styled.div`
     width: calc(100vw - 40px); 
     display: flex;
@@ -202,17 +204,17 @@ const FormContainer = styled.div`
     input {
         width: calc(100vw - 60px);
     }
-`
+`;
 const CaptionContainer = styled.div`
     display: flex;
     flex-direction: row;
     width: 300px;
     justify-content: space-between;
     margin: 20px;
-`
+`;
 const CaptionCircle = styled.div`
-    border: 1px solid ${(props)=>(!props.vago)? '#F7C52B' :(props.selecionado ?'#0E7D71' :'#808F9D')};
-    background-color: ${(props)=>(!props.vago)? '#FBE192' :(props.selecionado ?'#1AAE9E' :'#C3CFD9')};
+    border: 1px solid ${(props) => (!props.vago) ? '#F7C52B' : (props.selecionado ? '#0E7D71' : '#808F9D')};
+    background-color: ${(props) => (!props.vago) ? '#FBE192' : (props.selecionado ? '#1AAE9E' : '#C3CFD9')};
     height: 25px;
     width: 25px;
     border-radius: 25px;
@@ -220,16 +222,16 @@ const CaptionCircle = styled.div`
     align-items: center;
     justify-content: center;
     margin: 5px 3px;
-`
+`;
 const CaptionItem = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     font-size: 12px;
-`
+`;
 const SeatItem = styled.div`
-    border: 1px solid ${(props)=>(!props.vago)? '#F7C52B' :(props.selecionado ?'#0E7D71' :'#808F9D')};
-    background-color: ${(props)=>(!props.vago)? '#FBE192' :(props.selecionado ?'#1AAE9E' :'#C3CFD9')};
+    border: 1px solid ${(props) => (!props.vago) ? '#F7C52B' : (props.selecionado ? '#0E7D71' : '#808F9D')};
+    background-color: ${(props) => (!props.vago) ? '#FBE192' : (props.selecionado ? '#1AAE9E' : '#C3CFD9')};
     height: 25px;
     width: 25px;
     border-radius: 25px;
@@ -239,7 +241,7 @@ const SeatItem = styled.div`
     align-items: center;
     justify-content: center;
     margin: 5px 3px;
-`
+`;
 const FooterContainer = styled.div`
     width: 100%;
     height: 120px;
@@ -277,4 +279,4 @@ const FooterContainer = styled.div`
             }
         }
     }
-`
+`;

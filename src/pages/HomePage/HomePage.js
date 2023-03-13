@@ -1,6 +1,6 @@
-import styled from "styled-components"
-import axios from "axios"
-import { useEffect, useState } from "react"
+import styled from "styled-components";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 
@@ -8,7 +8,7 @@ export default function HomePage() {
 
     const [filme, setFilme] = useState(null);
 
-   
+
     useEffect(() => {
 		const requisicao = axios.get("https://mock-api.driven.com.br/api/v8/cineflex/movies");
 
@@ -17,7 +17,7 @@ export default function HomePage() {
 		});
 
         requisicao.catch(resposta =>{
-            console.log(resposta.request.status)
+            console.log(resposta.request.status);
         });
 
 	}, []);
@@ -27,7 +27,7 @@ export default function HomePage() {
              <Loading>
                 <img src="/assets/loading.gif"></img>
                 </Loading> 
-             )
+             );
       }
 
     return (
@@ -49,7 +49,7 @@ export default function HomePage() {
             </ListContainer>
 
         </PageContainer>
-    )
+    );
 }
 
 
@@ -64,7 +64,8 @@ align-items: center;
 img{
     width: 17%; 
 }
-`
+`;
+
 const PageContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -75,14 +76,16 @@ const PageContainer = styled.div`
     color: #293845;
     margin-top: 30px;
     padding-top: 70px;
-`
+`;
+
 const ListContainer = styled.div`
     width: 330px;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     padding: 10px;
-`
+`;
+
 const MovieContainer = styled.div`
     width: 145px;
     height: 210px;
@@ -96,4 +99,4 @@ const MovieContainer = styled.div`
         width: 130px;
         height: 190px;
     }
-`
+`;

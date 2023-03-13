@@ -1,13 +1,13 @@
-import { Link, useParams } from "react-router-dom"
-import styled from "styled-components"
-import axios from "axios"
-import { useEffect, useState } from "react"
+import { Link, useParams } from "react-router-dom";
+import styled from "styled-components";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 
 export default function SessionsPage() {
 
-    const { idFilme } = useParams()
-    const [sessao, setSessao] = useState(null)
+    const { idFilme } = useParams();
+    const [sessao, setSessao] = useState(null);
 
 
     useEffect(() => {
@@ -18,7 +18,7 @@ export default function SessionsPage() {
         });
 
         requisicao.catch(resposta => {
-            console.log(resposta.request.status)
+            console.log(resposta.request.status);
         });
 
     }, []);
@@ -28,7 +28,7 @@ export default function SessionsPage() {
             <Loading>
                 <img src="/assets/loading.gif"></img>
             </Loading>
-        )
+        );
     }
 
 
@@ -58,7 +58,7 @@ export default function SessionsPage() {
 
                             </ButtonsContainer>
                         </SessionContainer>
-                    )
+                    );
                 }
                 )}
             </div>
@@ -88,7 +88,7 @@ align-items: center;
 img{
     width: 17%; 
 }
-`
+`;
 
 const PageContainer = styled.div`
     display: flex;
@@ -103,7 +103,7 @@ const PageContainer = styled.div`
     div {
         margin-top: 20px;
     }
-`
+`;
 const SessionContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -112,7 +112,7 @@ const SessionContainer = styled.div`
     font-size: 20px;
     color: #293845;
     padding: 0 20px;
-`
+`;
 const ButtonsContainer = styled.div`
     display: flex;
     flex-direction: row;
@@ -123,7 +123,7 @@ const ButtonsContainer = styled.div`
     a {
         text-decoration: none;
     }
-`
+`;
 const FooterContainer = styled.div`
     width: 100%;
     height: 120px;
@@ -161,4 +161,4 @@ const FooterContainer = styled.div`
             }
         }
     }
-`
+`;

@@ -1,15 +1,15 @@
-import styled from "styled-components"
-import { Link } from "react-router-dom"
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export default function SuccessPage(props) {
-   
 
-       if (props.dados === null) {
+
+    if (props.dados === null) {
         return (
             <Loading>
                 <img src="/assets/loading.gif"></img>
             </Loading>
-        )
+        );
     }
 
 
@@ -25,8 +25,8 @@ export default function SuccessPage(props) {
 
             <TextContainer data-test="seats-info">
                 <strong><p>Ingressos</p></strong>
-                {props.dados.cadeira.map((e)=> <p key={e}>Assento {e}</p>)}
-            
+                {props.dados.cadeira.map((e) => <p key={e}>Assento {e}</p>)}
+
             </TextContainer>
 
             <TextContainer data-test="client-info">
@@ -35,10 +35,10 @@ export default function SuccessPage(props) {
                 <p>CPF: {props.dados.cpf}</p>
             </TextContainer>
             <Link data-test="go-home-btn" to={'/'}>
-            <button>Voltar para Home</button>
+                <button>Voltar para Home</button>
             </Link>
         </PageContainer>
-    )
+    );
 }
 
 
@@ -52,7 +52,7 @@ align-items: center;
 img{
     width: 17%; 
 }
-`
+`;
 
 const PageContainer = styled.div`
     display: flex;
@@ -81,7 +81,7 @@ const PageContainer = styled.div`
         text-align: center;
         color: #247A6B;
     }
-`
+`;
 const TextContainer = styled.div`
     width: 100%;
     display: flex;
@@ -92,4 +92,4 @@ const TextContainer = styled.div`
         font-weight: bold;
         margin-bottom: 10px;
     }
-`
+`;
