@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 
 export default function HomePage() {
 
-    const [filme, setFilme] = useState([]);
+    const [filme, setFilme] = useState(null);
 
    
     useEffect(() => {
@@ -13,8 +13,22 @@ export default function HomePage() {
 
 		requisicao.then(resposta => {
 			setFilme(resposta.data);
+            console.log(resposta)
 		});
+
+        requisicao.catch(resposta =>{
+            console.log(resposta.request.status)
+        });
+
 	}, []);
+
+      if(filme===null){
+        return (
+             <Loading>
+                <img src="assets/loading.gif"></img>
+                </Loading> 
+             ) 
+      }
 
     return (
         <PageContainer>
@@ -38,7 +52,17 @@ export default function HomePage() {
     )
 }
 
-
+const Loading = styled.div`
+width: 100vw;
+height: 100vh;
+margin: 0 auto;
+display: flex;
+justify-content: center;
+align-items: center;
+img{
+    width: 17%; 
+}
+`
 const PageContainer = styled.div`
     display: flex;
     flex-direction: column;
