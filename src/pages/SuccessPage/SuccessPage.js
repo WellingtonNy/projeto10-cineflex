@@ -17,24 +17,24 @@ export default function SuccessPage(props) {
         <PageContainer>
             <h1>Pedido feito <br /> com sucesso!</h1>
 
-            <TextContainer>
+            <TextContainer data-test="movie-info">
                 <strong><p>Filme e sessão</p></strong>
                 <p>{props.dados.filme}</p>
                 <p>{props.dados.data} - {props.dados.hora}</p>
             </TextContainer>
 
-            <TextContainer>
+            <TextContainer data-test="seats-info">
                 <strong><p>Ingressos</p></strong>
                 {props.dados.cadeira.map((e)=> <p key={e}>Assento {e}</p>)}
             
             </TextContainer>
 
-            <TextContainer>
+            <TextContainer data-test="client-info">
                 <strong><p>Comprador</p></strong>
                 <p>Nome: {props.dados.nome}</p>
                 <p>CPF: {props.dados.cpf}</p>
             </TextContainer>
-            <Link to={'/'}>
+            <Link data-test="go-home-btn" to={'/'}>
             <button>Voltar para Home</button>
             </Link>
         </PageContainer>

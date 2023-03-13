@@ -87,6 +87,7 @@ function escolher(cadeira){
                     return(
 
                         <SeatItem 
+                        data-test="seat"
                         key={elemento.id}
                         vago={elemento.isAvailable}
                         selecionado={escolha.includes(elemento)}
@@ -117,7 +118,8 @@ function escolher(cadeira){
                 <form onSubmit={submeter}>
 
                <label htmlFor="nome" >Nome do Comprador:</label>
-                <input id="nome" 
+                <input data-test="client-name"
+                id="nome" 
                 type="text" 
                 required 
                 value={nome} 
@@ -125,18 +127,19 @@ function escolher(cadeira){
                 placeholder="Digite seu nome..." />
 
                 <label htmlFor="cpf" >CPF do Comprador:</label>
-                <input id="cpf"
+                <input data-test="client-cpf"
+                id="cpf"
                  type="number"
                  required
                  onChange={e=> setCpf(e.target.value)}
                  placeholder="Digite seu CPF sem Pontos ou Traços..." />
                  
-                <button  type="submit">Reservar Assento(s)</button>
+                <button data-test="book-seat-btn" type="submit">Reservar Assento(s)</button>
                 
                 </form>
             </FormContainer>
 
-            <FooterContainer>
+            <FooterContainer data-test="footer">
                 <div>
                     <img src={assento.movie.posterURL} alt="poster" />
                 </div>
