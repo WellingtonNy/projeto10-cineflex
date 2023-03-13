@@ -129,7 +129,7 @@ function escolher(cadeira){
                 <label htmlFor="cpf" >CPF do Comprador:</label>
                 <input data-test="client-cpf"
                 id="cpf"
-                 type="number"
+                 type="text"
                  required
                  onChange={e=> setCpf(e.target.value)}
                  placeholder="Digite seu CPF sem Pontos ou Traços..." />

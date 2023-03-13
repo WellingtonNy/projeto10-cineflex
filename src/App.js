@@ -23,7 +23,7 @@ export default function App() {
            <Route path="/assentos/:idSessao" element={<SeatsPage
             setDados={setDados}
             dados={dados} />} />
-           <Route path="/sucesso/" element={<SuccessPage dados={dados} /> } />
+           <Route path="/sucesso" element={<SuccessPage dados={dados} /> } />
 
             </Routes>
             </BrowserRouter>
