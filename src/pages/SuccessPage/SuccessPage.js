@@ -1,39 +1,58 @@
 import styled from "styled-components"
+import { Link } from "react-router-dom"
 
 export default function SuccessPage(props) {
-    //nome:nome,
-       // cpf:cpf,
-      //  cadeira:arr3,
-       // filme:assento.movie.title,
-       // data:assento.day.date,
-       // hora:assento.name
+   
+
+       if (props.dados === null) {
+        return (
+            <Loading>
+                <img src="/assets/loading.gif"></img>
+            </Loading>
+        )
+    }
+
+
     return (
         <PageContainer>
             <h1>Pedido feito <br /> com sucesso!</h1>
 
             <TextContainer>
                 <strong><p>Filme e sessão</p></strong>
-                <p>Tudo em todo lugar ao mesmo tempo</p>
-                <p>03/03/2023 - 14:00</p>
+                <p>{props.dados.filme}</p>
+                <p>{props.dados.data} - {props.dados.hora}</p>
             </TextContainer>
 
             <TextContainer>
                 <strong><p>Ingressos</p></strong>
-                <p>Assento 01</p>
-                <p>Assento 02</p>
-                <p>Assento 03</p>
+                {props.dados.cadeira.map((e)=> <p key={e}>Assento {e}</p>)}
+            
             </TextContainer>
 
             <TextContainer>
                 <strong><p>Comprador</p></strong>
-                <p>Nome: Letícia Chijo</p>
-                <p>CPF: 123.456.789-10</p>
+                <p>Nome: {props.dados.nome}</p>
+                <p>CPF: {props.dados.cpf}</p>
             </TextContainer>
-
+            <Link to={'/'}>
             <button>Voltar para Home</button>
+            </Link>
         </PageContainer>
     )
 }
+
+
+const Loading = styled.div`
+width: 100vw;
+height: 100vh;
+margin: 0 auto;
+display: flex;
+justify-content: center;
+align-items: center;
+img{
+    width: 17%; 
+}
+`
 
 const PageContainer = styled.div`
     display: flex;

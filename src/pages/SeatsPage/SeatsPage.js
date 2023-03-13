@@ -124,8 +124,9 @@ function escolher(cadeira){
                  required
                  onChange={e=> setCpf(e.target.value)}
                  placeholder="Digite seu CPF sem Pontos ou Traços..." />
-
-                <button type="submit">Reservar Assento(s)</button>
+                 <Link to={"/sucesso/"}>
+                <button onClick={submfeter} type="submit">Reservar Assento(s)</button>
+                </Link>
                 </form>
             </FormContainer>
 
