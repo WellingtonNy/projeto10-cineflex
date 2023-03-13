@@ -73,7 +73,7 @@ function escolher(cadeira){
      
      postar.catch (()=> console.log('erro'))
      
-     navigate('/sucesso/')
+     navigate('/sucesso')
    
      
    }
