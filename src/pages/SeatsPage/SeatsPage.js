@@ -73,15 +73,15 @@ function escolher(cadeira){
 
             <CaptionContainer>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle vago={true} selecionado={true}/>
                     Selecionado
                 </CaptionItem>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle vago={true} selecionado={false} />
                     Disponível
                 </CaptionItem>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle vago={false} selecionado={false} />
                     Indisponível
                 </CaptionItem>
             </CaptionContainer>
@@ -167,8 +167,8 @@ const CaptionContainer = styled.div`
     margin: 20px;
 `
 const CaptionCircle = styled.div`
-    border: 1px solid blue;         // Essa cor deve mudar
-    background-color: lightblue;    // Essa cor deve mudar
+    border: 1px solid ${(props)=>(!props.vago)? '#F7C52B' :(props.selecionado ?'#0E7D71' :'#808F9D')};
+    background-color: ${(props)=>(!props.vago)? '#FBE192' :(props.selecionado ?'#1AAE9E' :'#C3CFD9')};
     height: 25px;
     width: 25px;
     border-radius: 25px;
