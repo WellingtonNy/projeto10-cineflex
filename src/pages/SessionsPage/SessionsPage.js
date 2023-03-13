@@ -74,7 +74,7 @@ export default function SessionsPage() {
 
         </PageContainer>
     )
-}
+};
 
 
 

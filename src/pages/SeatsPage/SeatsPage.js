@@ -25,7 +25,7 @@ export default function SeatsPage(props) {
         });
 
         requisicao.catch(resposta => {
-            console.log(resposta.request.status)
+            console.log(resposta.request.status);
         });
 
     }, []);
@@ -43,7 +43,7 @@ export default function SeatsPage(props) {
             return alert("Esse assento não está disponível");
         }
 
-        let escolhaCadeira = [...escolha]
+        let escolhaCadeira = [...escolha];
 
         if (escolhaCadeira.includes(cadeira)) {
             escolhaCadeira = escolhaCadeira.filter((elemento) => elemento !== cadeira);
@@ -55,23 +55,23 @@ export default function SeatsPage(props) {
 
     function submeter() {
 
-        let arr = [...escolha];
-        let arr2 = [];
-        let arr3 = [];
+        const arr = [...escolha];
+        const arr2 = [];
+        const arr3 = [];
         arr.forEach((e) => arr3.push((e.name)));
         arr.forEach((e) => arr2.push((e.id)));
-        const corpo = { ids: arr2, name: nome, cpf: cpf };
+        const corpo = { ids: arr2, name: nome, cpf};
         const postar = axios.post('https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many', corpo);
 
         postar.then(() => {
             props.setDados({
-                nome: nome,
-                cpf: cpf,
+                nome,
+                cpf,
                 cadeira: arr3,
                 filme: assento.movie.title,
                 data: assento.day.date,
                 hora: assento.name
-            })
+            });
         });
 
         postar.catch(() => console.log('erro'));
@@ -96,8 +96,8 @@ export default function SeatsPage(props) {
                             onClick={() => escolher(elemento)}
                         >{elemento.name}</SeatItem>
 
-                    )
-                })}
+                    );
+                })};
 
             </SeatsContainer>
 

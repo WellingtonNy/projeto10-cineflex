@@ -26,7 +26,7 @@ export default function HomePage() {
         return (
              <Loading>
                 <img src="/assets/loading.gif"></img>
-                </Loading> 
+                </Loading>
              );
       }
 
@@ -44,7 +44,7 @@ export default function HomePage() {
                 </MovieContainer>
                 </Link>
                 )
-                })}
+                })};
 
             </ListContainer>
 
