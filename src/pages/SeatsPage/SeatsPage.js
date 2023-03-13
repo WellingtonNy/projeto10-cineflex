@@ -60,7 +60,7 @@ function escolher(cadeira){
     let arr3=[]
     arr.forEach((e)=>arr3.push((e.name)))
     arr.forEach((e)=>arr2.push((e.id)))
-    const corpo={ids:arr2 , nome:nome, cpf:cpf }
+    const corpo={ids:arr2 , name:nome, cpf:cpf }
     const postar = axios.post('https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many',corpo)
 
      postar.then (()=>{props.setDados({nome:nome,
