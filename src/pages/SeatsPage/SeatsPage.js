@@ -131,6 +131,7 @@ function escolher(cadeira){
                 id="cpf"
                  type="text"
                  required
+                 value={cpf}
                  onChange={e=> setCpf(e.target.value)}
                  placeholder="Digite seu CPF sem Pontos ou Traços..." />
                  
