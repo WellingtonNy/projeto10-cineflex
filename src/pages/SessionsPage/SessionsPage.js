@@ -73,8 +73,8 @@ export default function SessionsPage() {
             </FooterContainer>
 
         </PageContainer>
-    )
-};
+    );
+}
 
 
 
