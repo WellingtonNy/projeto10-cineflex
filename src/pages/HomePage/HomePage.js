@@ -43,8 +43,8 @@ export default function HomePage() {
                    <img src={elemento.posterURL} alt="poster" />
                 </MovieContainer>
                 </Link>
-                )
-                })};
+                );
+                })}
 
             </ListContainer>
 

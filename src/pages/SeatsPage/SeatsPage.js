@@ -97,7 +97,7 @@ export default function SeatsPage(props) {
                         >{elemento.name}</SeatItem>
 
                     );
-                })};
+                })}
 
             </SeatsContainer>
 
