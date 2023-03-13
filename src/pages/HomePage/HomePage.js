@@ -29,7 +29,7 @@ export default function HomePage() {
                 </Loading> 
              )
       }
-      
+
     return (
         <PageContainer>
             Selecione o filme
@@ -51,6 +51,8 @@ export default function HomePage() {
         </PageContainer>
     )
 }
+
+
 
 const Loading = styled.div`
 width: 100vw;

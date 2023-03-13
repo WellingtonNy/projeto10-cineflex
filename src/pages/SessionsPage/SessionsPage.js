@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import styled from "styled-components"
 import axios from "axios"
 import { useEffect, useState } from "react"
@@ -6,31 +6,30 @@ import { useEffect, useState } from "react"
 
 export default function SessionsPage() {
 
-const {idSessions} = useParams()
-const [sessao,setSessao]=useState(null)
+    const { idSessions } = useParams()
+    const [sessao, setSessao] = useState(null)
 
 
-useEffect(() => {
-    const requisicao = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idSessions}/showtimes`);
+    useEffect(() => {
+        const requisicao = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idSessions}/showtimes`);
 
-    requisicao.then(resposta => {
-        setSessao(resposta.data);
-        console.log(resposta.data)
-    });
+        requisicao.then(resposta => {
+            setSessao(resposta.data);
+        });
 
-    requisicao.catch(resposta =>{
-        console.log(resposta.request.status)
-    });
+        requisicao.catch(resposta => {
+            console.log(resposta.request.status)
+        });
 
-}, []);
+    }, []);
 
-  if(sessao === null){
-    return (
-         <Loading>
-            <img src="assets/loading.gif"></img>
-            </Loading> 
-         ) 
-  }
+    if (sessao === null) {
+        return (
+            <Loading>
+                <img src="assets/loading.gif"></img>
+            </Loading>
+        )
+    }
 
 
 
@@ -39,22 +38,28 @@ useEffect(() => {
             Selecione o horário
             <div>
 
-                {sessao.days.map((elemento)=>{
-                 return(
+                {sessao.days.map((elemento) => {
+                    return (
 
-                <SessionContainer key={elemento.id}>
-                    {elemento.weekday} - {elemento.date}
-                        <ButtonsContainer>
-                            {elemento.showtimes.map((elemento)=>{
-                             return(
-                                <button key={elemento.id}>{elemento.name}</button>
-                             );
-                            }
-                            )}
-                        </ButtonsContainer>
-                </SessionContainer>
-                 )
-                }                
+                        <SessionContainer key={elemento.id}>
+                            {elemento.weekday} - {elemento.date}
+                            <ButtonsContainer>
+
+                                {elemento.showtimes.map((elemento) => {
+                                    return (
+
+                                        <Link key={elemento.id} to={`/assentos/${elemento.id}`}>
+                                            <button >{elemento.name}</button>
+                                        </Link>
+
+                                    );
+                                }
+                                )}
+
+                            </ButtonsContainer>
+                        </SessionContainer>
+                    )
+                }
                 )}
             </div>
 
@@ -70,6 +75,7 @@ useEffect(() => {
         </PageContainer>
     )
 }
+
 
 
 const Loading = styled.div`
