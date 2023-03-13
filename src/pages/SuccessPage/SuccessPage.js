@@ -1,7 +1,12 @@
 import styled from "styled-components"
 
-export default function SuccessPage() {
-
+export default function SuccessPage(props) {
+    //nome:nome,
+       // cpf:cpf,
+      //  cadeira:arr3,
+       // filme:assento.movie.title,
+       // data:assento.day.date,
+       // hora:assento.name
     return (
         <PageContainer>
             <h1>Pedido feito <br /> com sucesso!</h1>

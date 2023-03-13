@@ -4,11 +4,14 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 
 
-export default function SeatsPage() {
+export default function SeatsPage(props) {
 
     const { idSessao } = useParams()
     const [assento,setAssento] = useState(null)
     const [escolha,setEscolha]=useState([])
+    const [nome,setNome]=useState()
+    const [cpf,setCpf]= useState()
+    const [sucesso,setSucesso]=useState(null)
 
 
 
@@ -17,7 +20,6 @@ export default function SeatsPage() {
 
         requisicao.then(resposta => {
             setAssento(resposta.data);
-            console.log(resposta.data);
         });
 
         requisicao.catch(resposta => {
@@ -49,7 +51,26 @@ function escolher(cadeira){
      setEscolha(escolhaCadeira);
 }
 
+   function submfeter(){
+    
+    let arr= [...escolha]
+    let arr2=[]
+    let arr3=[]
+    arr.forEach((e)=>arr3.push((e.name)))
+    arr.forEach((e)=>arr2.push((e.id)))
+    const corpo={ids:arr2 , nome:nome, cpf:cpf }
+    const postar = axios.post('https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many',corpo)
 
+     postar.then (()=>{props.setDados({nome:nome,
+        cpf:cpf,
+        cadeira:arr3,
+        filme:assento.movie.title,
+        data:assento.day.date,
+        hora:assento.name
+    })})
+     
+     postar.catch (()=> console.log('erro'))
+   }
 
     return (
         <PageContainer>
@@ -81,19 +102,31 @@ function escolher(cadeira){
                     Disponível
                 </CaptionItem>
                 <CaptionItem>
-                    <CaptionCircle vago={false} selecionado={false} />
+                    <CaptionCircle onClick={submfeter} vago={false} selecionado={false} />
                     Indisponível
                 </CaptionItem>
             </CaptionContainer>
 
             <FormContainer>
-                Nome do Comprador:
-                <input placeholder="Digite seu nome..." />
+                <form onSubmit={submfeter}>
 
-                CPF do Comprador:
-                <input placeholder="Digite seu CPF..." />
+               <label htmlFor="nome" >Nome do Comprador:</label>
+                <input id="nome" 
+                type="text" 
+                required 
+                value={nome} 
+                onChange={e=> setNome(e.target.value)} 
+                placeholder="Digite seu nome..." />
 
-                <button>Reservar Assento(s)</button>
+                <label htmlFor="cpf" >CPF do Comprador:</label>
+                <input id="cpf"
+                 type="number"
+                 required
+                 onChange={e=> setCpf(e.target.value)}
+                 placeholder="Digite seu CPF sem Pontos ou Traços..." />
+
+                <button type="submit">Reservar Assento(s)</button>
+                </form>
             </FormContainer>
 
             <FooterContainer>
