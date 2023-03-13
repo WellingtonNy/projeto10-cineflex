@@ -1,7 +1,8 @@
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 import axios from "axios"
 import { useEffect, useState } from "react"
+
 
 
 export default function SeatsPage(props) {
@@ -11,7 +12,8 @@ export default function SeatsPage(props) {
     const [escolha,setEscolha]=useState([])
     const [nome,setNome]=useState()
     const [cpf,setCpf]= useState()
-    const [sucesso,setSucesso]=useState(null)
+    const navigate = useNavigate();
+    
 
 
 
@@ -51,7 +53,7 @@ function escolher(cadeira){
      setEscolha(escolhaCadeira);
 }
 
-   function submfeter(){
+   function submeter(){
     
     let arr= [...escolha]
     let arr2=[]
@@ -70,6 +72,10 @@ function escolher(cadeira){
     })})
      
      postar.catch (()=> console.log('erro'))
+     
+     navigate('/sucesso/')
+   
+     
    }
 
     return (
@@ -102,13 +108,13 @@ function escolher(cadeira){
                     Disponível
                 </CaptionItem>
                 <CaptionItem>
-                    <CaptionCircle onClick={submfeter} vago={false} selecionado={false} />
+                    <CaptionCircle vago={false} selecionado={false} />
                     Indisponível
                 </CaptionItem>
             </CaptionContainer>
 
             <FormContainer>
-                <form onSubmit={submfeter}>
+                <form onSubmit={submeter}>
 
                <label htmlFor="nome" >Nome do Comprador:</label>
                 <input id="nome" 
@@ -124,9 +130,9 @@ function escolher(cadeira){
                  required
                  onChange={e=> setCpf(e.target.value)}
                  placeholder="Digite seu CPF sem Pontos ou Traços..." />
-                 <Link to={"/sucesso/"}>
-                <button onClick={submfeter} type="submit">Reservar Assento(s)</button>
-                </Link>
+                 
+                <button  type="submit">Reservar Assento(s)</button>
+                
                 </form>
             </FormContainer>
 
