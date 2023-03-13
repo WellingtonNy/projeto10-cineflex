@@ -6,12 +6,12 @@ import { useEffect, useState } from "react"
 
 export default function SessionsPage() {
 
-    const { idSessions } = useParams()
+    const { idFilme } = useParams()
     const [sessao, setSessao] = useState(null)
 
 
     useEffect(() => {
-        const requisicao = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idSessions}/showtimes`);
+        const requisicao = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilme}/showtimes`);
 
         requisicao.then(resposta => {
             setSessao(resposta.data);
@@ -26,7 +26,7 @@ export default function SessionsPage() {
     if (sessao === null) {
         return (
             <Loading>
-                <img src="assets/loading.gif"></img>
+                <img src="/assets/loading.gif"></img>
             </Loading>
         )
     }

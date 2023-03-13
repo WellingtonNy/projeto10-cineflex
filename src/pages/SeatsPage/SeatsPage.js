@@ -1,17 +1,74 @@
+import { Link, useParams } from "react-router-dom"
 import styled from "styled-components"
+import axios from "axios"
+import { useEffect, useState } from "react"
+
 
 export default function SeatsPage() {
+
+    const { idSessao } = useParams()
+    const [assento,setAssento] = useState(null)
+    const [escolha,setEscolha]=useState([])
+
+
+
+    useEffect(() => {
+        const requisicao = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`);
+
+        requisicao.then(resposta => {
+            setAssento(resposta.data);
+            console.log(resposta.data);
+        });
+
+        requisicao.catch(resposta => {
+            console.log(resposta.request.status)
+        });
+
+    }, []);
+
+    if (assento === null) {
+        return (
+            <Loading>
+                <img src="/assets/loading.gif"></img>
+            </Loading>
+        )
+    }
+
+function escolher(cadeira){
+    if(cadeira.isAvailable !== true){
+        return alert("Esse assento não está disponível")
+    }
+
+    let escolhaCadeira = [...escolha]
+
+    if(escolhaCadeira.includes(cadeira)){
+        escolhaCadeira = escolhaCadeira.filter((elemento)=> elemento !== cadeira);
+    }else{
+        escolhaCadeira.push(cadeira);
+    }
+     setEscolha(escolhaCadeira);
+}
+
+
 
     return (
         <PageContainer>
             Selecione o(s) assento(s)
 
             <SeatsContainer>
-                <SeatItem>01</SeatItem>
-                <SeatItem>02</SeatItem>
-                <SeatItem>03</SeatItem>
-                <SeatItem>04</SeatItem>
-                <SeatItem>05</SeatItem>
+                {assento.seats.map((elemento)=>{
+                    return(
+
+                        <SeatItem 
+                        key={elemento.id}
+                        vago={elemento.isAvailable}
+                        selecionado={escolha.includes(elemento)}
+                        onClick={()=>escolher(elemento)}
+                        >{elemento.name}</SeatItem>
+
+                    )
+                })}
+
             </SeatsContainer>
 
             <CaptionContainer>
@@ -41,17 +98,31 @@ export default function SeatsPage() {
 
             <FooterContainer>
                 <div>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
+                    <img src={assento.movie.posterURL} alt="poster" />
                 </div>
                 <div>
-                    <p>Tudo em todo lugar ao mesmo tempo</p>
-                    <p>Sexta - 14h00</p>
+                    <p>{assento.movie.title}</p>
+                    <p>{assento.day.weekday} - {assento.name}</p>
                 </div>
             </FooterContainer>
 
         </PageContainer>
     )
 }
+
+
+
+const Loading = styled.div`
+width: 100vw;
+height: 100vh;
+margin: 0 auto;
+display: flex;
+justify-content: center;
+align-items: center;
+img{
+    width: 17%; 
+}
+`
 
 const PageContainer = styled.div`
     display: flex;
@@ -113,8 +184,8 @@ const CaptionItem = styled.div`
     font-size: 12px;
 `
 const SeatItem = styled.div`
-    border: 1px solid blue;         // Essa cor deve mudar
-    background-color: lightblue;    // Essa cor deve mudar
+    border: 1px solid ${(props)=>(!props.vago)? '#F7C52B' :(props.selecionado ?'#0E7D71' :'#808F9D')};
+    background-color: ${(props)=>(!props.vago)? '#FBE192' :(props.selecionado ?'#1AAE9E' :'#C3CFD9')};
     height: 25px;
     width: 25px;
     border-radius: 25px;

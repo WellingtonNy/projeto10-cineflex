@@ -25,7 +25,7 @@ export default function HomePage() {
       if(filme===null){
         return (
              <Loading>
-                <img src="assets/loading.gif"></img>
+                <img src="/assets/loading.gif"></img>
                 </Loading> 
              )
       }
